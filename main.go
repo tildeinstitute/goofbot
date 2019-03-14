@@ -3,11 +3,14 @@ package main
 import (
 	"crypto/tls"
 	"log"
+	"net"
 
 	"gopkg.in/irc.v3"
 )
 
-func main() {
+func setConfs() (bool, irc.ClientConfig, tls.Config) {
+	//set this to false if you need
+	useTLS := true
 
 	// set all the necessities
 	// also specifies the initial channel
@@ -34,13 +37,24 @@ func main() {
 	}
 
 	// set up the tls params for the connection
+	// see: https://golang.org/pkg/crypto/tls/#Config
 	tlsconfig := tls.Config{
 		InsecureSkipVerify:       false, //set to true if you want to be dumb
 		RootCAs:                  nil,   //use the OS's root CAs
 		PreferServerCipherSuites: true,  //use the server's cipher list
 	}
+	return useTLS, config, tlsconfig
+}
 
-	conn, err := tls.Dial("tcp", "irc.tilde.chat:6697", &tlsconfig)
+func main() {
+	useTLS, config, tlsconfig := setConfs()
+
+	switch useTLS {
+	case true:
+		conn, err := tls.Dial("tcp", "irc.tilde.chat:6697", &tlsconfig)
+	case false:
+		conn, err := net.Dial("tcp", "irc.tilde.chat:6667")
+	}
 	if err != nil {
 		log.Fatalln(err)
 	}
