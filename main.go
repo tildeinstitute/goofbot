@@ -1,8 +1,8 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
-	"net"
 
 	"gopkg.in/irc.v3"
 )
@@ -20,7 +20,7 @@ func main() {
 		Handler: irc.HandlerFunc(func(c *irc.Client, m *irc.Message) {
 			if m.Command == "001" {
 				// 001 = welcome
-				c.Write("JOIN #institute")
+				c.Write("JOIN #institute") //initial channel join
 			} else if m.Command == "PRIVMSG" && c.FromChannel(m) {
 				c.WriteMessage(&irc.Message{
 					Command: "PRIVMSG",
@@ -33,7 +33,14 @@ func main() {
 		}),
 	}
 
-	conn, err := net.Dial("tcp", "irc.tilde.chat:6697")
+	// set up the tls params for the connection
+	tlsconfig := tls.Config{
+		InsecureSkipVerify:       false, //set to true if you want to be dumb
+		RootCAs:                  nil,   //use the OS's root CAs
+		PreferServerCipherSuites: true,  //use the server's cipher list
+	}
+
+	conn, err := tls.Dial("tcp", "irc.tilde.chat:6697", &tlsconfig)
 	if err != nil {
 		log.Fatalln(err)
 	}
