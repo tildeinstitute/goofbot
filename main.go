@@ -21,6 +21,7 @@ func main() {
 	})
 
 	//TODO: handle PING/PONG events
+	//i'm shooting in the dark with this handler
 	//client.Handlers.Add(girc.PING, func(i girc.PING, c *girc.Client)) {
 	//    c.Cmd.Pong(i)
 	//}
