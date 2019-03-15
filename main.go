@@ -20,6 +20,11 @@ func main() {
 		SSL:    true,
 	})
 
+	//TODO: handle PING/PONG events
+	//client.Handlers.Add(girc.PING, func(i girc.PING, c *girc.Client)) {
+	//    c.Cmd.Pong(i)
+	//}
+
 	client.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
 		c.Cmd.Join("#goofbot")
 	})
@@ -37,7 +42,7 @@ func main() {
 			return
 		}
 		if strings.HasPrefix(e.Last(), "!botlist") {
-			c.Cmd.Reply(e, "Creator: ahriman. I'm the assistance bot for ~institute. Commands: !hello, !stop")
+			c.Cmd.Reply(e, "Creator: ahriman. I'm the assistance bot for tilde.institute. Commands: !hello, !stop")
 			return
 		}
 	})
