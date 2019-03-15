@@ -42,9 +42,14 @@ func main() {
 			return
 		}
 		if strings.HasPrefix(e.Last(), "!botlist") {
-			c.Cmd.Reply(e, "Creator: ahriman. I'm the assistance bot for tilde.institute. Commands: !hello, !stop")
+			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello")
 			return
 		}
+		//TODO:
+		// currently connected users
+		// uptime
+		// load
+		//
 	})
 
 	if err := client.Connect(); err != nil {
