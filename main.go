@@ -54,7 +54,7 @@ func main() {
 		// when requested by owner, join channel specified
 		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == owner {
 			c.Cmd.Reply(e, "Right away, cap'n!")
-			time.sleep(100 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 			c.Cmd.Join(e.Params[0])
 		}
 		// respond with uptime / load
