@@ -55,7 +55,7 @@ func main() {
 		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == owner {
 			c.Cmd.Reply(e, "Right away, cap'n!")
 			time.Sleep(100 * time.Millisecond)
-			c.Cmd.Join(e.Params[0])
+			c.Cmd.Join(e.Params[1])
 		}
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
