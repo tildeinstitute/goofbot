@@ -14,6 +14,8 @@ import (
 func main() {
 	// OWNER NICK
 	owner := "ahriman"
+	// INITIAL CHANNEL
+	nchannel := "#goofbot"
 	// CLIENT CONFIG
 	client := girc.New(girc.Config{
 		Server: "irc.tilde.chat",
@@ -28,7 +30,7 @@ func main() {
 	// specify the channel to join on startup
 	// for multiple channels: ("#goofbot", "#goofbot2", "#goofbot3")
 	client.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
-		c.Cmd.Join("#goofbot")
+		c.Cmd.Join(nchannel)
 	})
 
 	// basic command-response handler
