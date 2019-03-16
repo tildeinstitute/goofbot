@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	// OWNER NICK
+	owner := "ahriman"
 	// CLIENT CONFIG
 	client := girc.New(girc.Config{
 		Server: "irc.tilde.chat",
@@ -38,7 +40,7 @@ func main() {
 
 		// check if the command was issued by a specific person before dying
 		// i had to delve into girc/commands.go to find e.Source.Name
-		if strings.HasPrefix(e.Last(), "die, devil bird!") && e.Source.Name == "ahriman" {
+		if strings.HasPrefix(e.Last(), "die, devil bird!") && e.Source.Name == owner {
 			c.Cmd.Reply(e, "SQUAWWWWWK!!")
 			time.Sleep(100 * time.Millisecond)
 			c.Close()
@@ -48,6 +50,12 @@ func main() {
 		if strings.HasPrefix(e.Last(), "!botlist") {
 			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello")
 			return
+		}
+		// when requested by owner, join channel specified
+		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == owner {
+			c.Cmd.Reply(e, "Right away, cap'n!")
+			time.sleep(100 * time.Millisecond)
+			c.Cmd.Join(e.Params[0])
 		}
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
