@@ -54,11 +54,13 @@ func main() {
 			c.Cmd.Reply(e, uptime)
 			return
 		}
-		//TODO:
-		// currently connected users
-		// uptime
-		// load
-		//
+		// respond with currently connected users
+		// TODO: prepend names with _ to avoid pings in irc
+		if strings.HasPrefix(e.Last(), "!users") {
+			users := exec.Command("who", "-q")
+			c.Cmd.Reply(e, users)
+			return
+		}
 	})
 
 	// if err is not nothing, eg, if there's an error
