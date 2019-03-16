@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -45,6 +46,12 @@ func main() {
 		//another basic command/response. required information for the tildeverse
 		if strings.HasPrefix(e.Last(), "!botlist") {
 			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello")
+			return
+		}
+		// respond with uptime / load
+		if strings.HasPrefix(e.Last(), "!uptime") {
+			uptime := exec.Command("uptime")
+			c.Cmd.Reply(e, uptime)
 			return
 		}
 		//TODO:
