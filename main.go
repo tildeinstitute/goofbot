@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"os"
 	"os/exec"
@@ -51,14 +52,26 @@ func main() {
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
 			uptime := exec.Command("uptime")
-			c.Cmd.Reply(e, uptime)
+			var out bytes.Buffer
+			uptime.Stdout = &out
+			err := uptime.Run()
+			if err != nil {
+				log.Fatalln("Error while running 'uptime'")
+			}
+			c.Cmd.Reply(e, out.String())
 			return
 		}
 		// respond with currently connected users
 		// TODO: prepend names with _ to avoid pings in irc
 		if strings.HasPrefix(e.Last(), "!users") {
 			users := exec.Command("who", "-q")
-			c.Cmd.Reply(e, users)
+			var out bytes.Buffer
+			users.Stdout = &out
+			err := users.Run()
+			if err != nil {
+				log.Fatalln("Error while running 'who -q'")
+			}
+			c.Cmd.Reply(e, out.String())
 			return
 		}
 	})
