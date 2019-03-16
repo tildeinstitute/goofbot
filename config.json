@@ -1,0 +1,11 @@
+{
+    "owner": "ahriman",
+    "channel": "#goofbot",
+    "server": "irc.tilde.chat",
+    "port": "6697",
+    "nick": "goofbot",
+    "user": "goofbot",
+    "name": "Goofus McBotus",
+    "out": "os.Stdout",
+    "ssl": "true"
+}
