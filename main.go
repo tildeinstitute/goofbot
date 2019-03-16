@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	//TODO:
+	//parse config.json into the following
 	// OWNER NICK
 	owner := "ahriman"
 	// INITIAL CHANNEL
