@@ -39,7 +39,7 @@ func main() {
 		}
 
 		// check if the command was issued by a specific person before dying
-		// i had to delve into girc/commands.go to find e.Source.Name
+		// i had to delve into girc/event.go to find e.Source.Name
 		if strings.HasPrefix(e.Last(), "die, devil bird!") && e.Source.Name == owner {
 			c.Cmd.Reply(e, "SQUAWWWWWK!!")
 			time.Sleep(100 * time.Millisecond)
@@ -53,9 +53,10 @@ func main() {
 		}
 		// when requested by owner, join channel specified
 		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == owner {
+			dest := strings.Split(e.Params[1], " ")
 			c.Cmd.Reply(e, "Right away, cap'n!")
 			time.Sleep(100 * time.Millisecond)
-			c.Cmd.Join(e.Params[1])
+			c.Cmd.Join(dest[1])
 		}
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
