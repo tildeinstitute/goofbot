@@ -2,10 +2,10 @@
     "owner": "ahriman",
     "chan": "#goofbot",
     "server": "irc.tilde.chat",
-    "port": "6697",
+    "port": 6697,
     "nick": "goofbot",
     "user": "goofbot",
     "name": "Goofus McBotus",
     "out": "os.Stdout",
-    "ssl": "true"
+    "ssl": true
 }

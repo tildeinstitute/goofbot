@@ -3,9 +3,9 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -27,7 +27,6 @@ type Conf struct {
 	Nick   string
 	User   string
 	Name   string
-	Out    io.Writer
 	SSL    bool
 }
 
@@ -48,7 +47,7 @@ func main() {
 		Nick:   conf.Nick,
 		User:   conf.User,
 		Name:   conf.Name,
-		Out:    conf.Out,
+		Out:    os.Stdout,
 		SSL:    conf.SSL,
 	})
 
