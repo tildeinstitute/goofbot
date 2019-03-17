@@ -48,8 +48,8 @@ func main() {
 		fmt.Println(`Here is the format for the JSON config file:
             {
                 "owner": "YourNickHere",
-                "chan": "#favchannel",
-                "server": "irc.freenode.net",
+                "chan": "#bots",
+                "server": "irc.tilde.chat",
                 "port": 6697,
                 "nick": "goofbot",
                 "pass": "",
