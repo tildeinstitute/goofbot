@@ -6,7 +6,7 @@ An IRC bot I'm working on to practice Go.
 
 External config file in JSON  
 Basic command/response structure  
-Some minor command/OS Call functions
+Some minor command/OS Call functions  
 Can specify owner for certain commands, such as !join #channel, or customizable "die"/"quit" command.
 
 ## TODO
