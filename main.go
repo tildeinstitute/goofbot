@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -36,8 +38,27 @@ type Conf struct {
 }
 
 func main() {
-	//read the file into a byte array
-	jsonconf, err := ioutil.ReadFile("config.json")
+	//check for config file specified by command line flag -c
+	jsonlocation := flag.String("c", "config.json", "Path to config file in JSON format")
+	jsonformat := flag.Bool("j", false, "Describes JSON config file fields")
+	flag.Parse()
+	if *jsonformat == true {
+		fmt.Println(`Here is the format for the JSON config file:
+            {
+                "owner": "YourNickHere",
+                "chan": "#favchannel",
+                "server": "irc.freenode.net",
+                "port": 6697,
+                "nick": "goofbot",
+                "pass": "",
+                "user": "goofbot",
+                "name": "Goofus McBotus",
+                "ssl": true
+            }`)
+		os.Exit(0)
+	}
+	//read the config file into a byte array
+	jsonconf, err := ioutil.ReadFile(*jsonlocation)
 	checkerr(err)
 
 	// unmarshal the json byte array into struct conf
