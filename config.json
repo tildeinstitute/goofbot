@@ -4,7 +4,7 @@
     "server": "irc.tilde.chat",
     "port": 6697,
     "nick": "goofbot",
-    "pass": null,
+    "pass": "",
     "user": "goofbot",
     "name": "Goofus McBotus",
     "ssl": true
