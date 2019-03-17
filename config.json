@@ -1,6 +1,6 @@
 {
     "owner": "ahriman",
-    "channel": "#goofbot",
+    "chan": "#goofbot",
     "server": "irc.tilde.chat",
     "port": "6697",
     "nick": "goofbot",
