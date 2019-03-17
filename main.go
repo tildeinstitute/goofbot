@@ -13,13 +13,15 @@ import (
 	"github.com/lrstanley/girc"
 )
 
+// function to grease error checking
 func checkerr(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
 
-//right now Conf.Pass isn't used, but i'm leaving it so the bot
+//Conf ... right now Conf.Pass isn't used,
+//but i'm leaving it so the bot
 //can have a registered nick
 type Conf struct {
 	Owner  string
@@ -126,7 +128,7 @@ func main() {
 		}
 	})
 
-	// if err is not nothing, eg, if there's an error
+	// die if there's a connection error
 	if err := client.Connect(); err != nil {
 		log.Fatalf("an error occurred while attempting to connect to %s: %s", client.Server(), err)
 	}
