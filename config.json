@@ -6,6 +6,5 @@
     "nick": "goofbot",
     "user": "goofbot",
     "name": "Goofus McBotus",
-    "out": "os.Stdout",
     "ssl": true
 }
