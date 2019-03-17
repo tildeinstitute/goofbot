@@ -59,10 +59,7 @@ func main() {
 	client.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
 		//authenticate with nickserv if pass is set in config file
 		if conf.Pass != "" {
-			var payload bytes.Buffer
-			payload.WriteString("identify ")
-			payload.WriteString(conf.Pass)
-			c.Cmd.Message("nickserv", payload.String())
+			c.Cmd.Message("nickserv", "identify "+conf.Pass)
 			time.Sleep(500 * time.Millisecond)
 		}
 		//join initial channel specified in config.json
