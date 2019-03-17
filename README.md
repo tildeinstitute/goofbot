@@ -10,6 +10,7 @@ Standard command/response structure
 * !totalusers - reports number of registered users  
 * !users - reports logged in users  
 * !uptime - reports uptime and load      
+
 Can define a bot owner for certain commands  
 Able to identify with services  
 
