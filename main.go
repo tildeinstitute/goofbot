@@ -19,12 +19,15 @@ func checkerr(err error) {
 	}
 }
 
+//right now Conf.Pass isn't used, but i'm leaving it so the bot
+//can have a registered nick
 type Conf struct {
 	Owner  string
 	Chan   string
 	Server string
 	Port   int
 	Nick   string
+	Pass   string
 	User   string
 	Name   string
 	SSL    bool
