@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io"
+	"io/ioutil"
 	"log"
-	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -17,28 +19,42 @@ func checkerr(err error) {
 	}
 }
 
+type Conf struct {
+	Owner  string
+	Chan   string
+	Server string
+	Port   int
+	Nick   string
+	User   string
+	Name   string
+	Out    io.Writer
+	SSL    bool
+}
+
 func main() {
-	//TODO:
-	//parse config.json into the following
-	// OWNER NICK
-	owner := "ahriman"
-	// INITIAL CHANNEL
-	nchannel := "#goofbot"
+	//read the file into a byte array
+	jsonconf, err := ioutil.ReadFile("config.json")
+	checkerr(err)
+
+	// unmarshal the json byte array into struct conf
+	var conf Conf
+	err = json.Unmarshal(jsonconf, &conf)
+	checkerr(err)
+
 	// CLIENT CONFIG
 	client := girc.New(girc.Config{
-		Server: "irc.tilde.chat",
-		Port:   6697,
-		Nick:   "goofbot",
-		User:   "goofbot",
-		Name:   "Goofus McBotus",
-		Out:    os.Stdout,
-		SSL:    true,
+		Server: conf.Server,
+		Port:   conf.Port,
+		Nick:   conf.Nick,
+		User:   conf.User,
+		Name:   conf.Name,
+		Out:    conf.Out,
+		SSL:    conf.SSL,
 	})
 
-	// specify the channel to join on startup
-	// for multiple channels: ("#goofbot", "#goofbot2", "#goofbot3")
+	// join startup channel
 	client.Handlers.Add(girc.CONNECTED, func(c *girc.Client, e girc.Event) {
-		c.Cmd.Join(nchannel)
+		c.Cmd.Join(conf.Chan)
 	})
 
 	// basic command-response handler
@@ -50,7 +66,7 @@ func main() {
 
 		// check if the command was issued by a specific person before dying
 		// i had to delve into girc/event.go to find e.Source.Name
-		if strings.HasPrefix(e.Last(), "die, devil bird!") && e.Source.Name == owner {
+		if strings.HasPrefix(e.Last(), "die, devil bird!") && e.Source.Name == conf.Owner {
 			c.Cmd.Reply(e, "SQUAWWWWWK!!")
 			time.Sleep(100 * time.Millisecond)
 			c.Close()
@@ -62,7 +78,7 @@ func main() {
 			return
 		}
 		// when requested by owner, join channel specified
-		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == owner {
+		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == conf.Owner {
 			dest := strings.Split(e.Params[1], " ")
 			c.Cmd.Reply(e, "Right away, cap'n!")
 			time.Sleep(100 * time.Millisecond)
