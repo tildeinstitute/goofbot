@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
@@ -106,7 +107,7 @@ func main() {
 		}
 		//another basic command/response. required information for the tildeverse
 		if strings.HasPrefix(e.Last(), "!botlist") {
-			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello !join !uptime !users")
+			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello !join !uptime !users !totalusers")
 			return
 		}
 		// when requested by owner, join channel specified
@@ -141,18 +142,11 @@ func main() {
 			c.Cmd.Reply(e, out.String())
 			return
 		}
-		// number of total users
-		// bot dies when i run this
-		// TODO: defuckulate this command
+		// number of total human users on the server
 		if strings.HasPrefix(e.Last(), "!totalusers") {
-			users := exec.Command("ls /home | wc -w")
-			var out bytes.Buffer
-			users.Stdout = &out
-			err := users.Run()
-			if err != nil {
-				log.Fatalln("Error while running 'ls /home | wc -w'")
-			}
-			c.Cmd.Reply(e, out.String())
+			userdirs, err := ioutil.ReadDir("/home")
+			checkerr(err)
+			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
 		}
 	})
 
