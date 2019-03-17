@@ -14,3 +14,4 @@ Able to identify with services
 ## TODO
 
 Externalize basic command/responses  
+Add interaction with Gotify API to send notification to channel admin when needed
