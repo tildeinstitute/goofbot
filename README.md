@@ -6,8 +6,10 @@ An IRC bot I'm working on to practice Go.
 
 External config file in JSON, optionally set via flag '-c'  
 Gives example config file with flag '-j'  
-Basic command/response structure  
-Some minor command/OS Call functions  
+Standard command/response structure
+    !totalusers - reports number of registered users  
+    !users - reports logged in users  
+    !uptime - reports uptime and load      
 Can define a bot owner for certain commands  
 Able to identify with services  
 
