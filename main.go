@@ -40,7 +40,9 @@ type Conf struct {
 func main() {
 	//check for config file specified by command line flag -c
 	jsonlocation := flag.String("c", "config.json", "Path to config file in JSON format")
+	//spit out config file structure if requested
 	jsonformat := flag.Bool("j", false, "Describes JSON config file fields")
+
 	flag.Parse()
 	if *jsonformat == true {
 		fmt.Println(`Here is the format for the JSON config file:
