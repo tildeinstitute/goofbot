@@ -18,3 +18,4 @@ Able to identify with services
 
 Externalize basic command/responses  
 Add interaction with Gotify API to send notification to channel admin when needed  
+Sanitize output of !users so as to not ping them in IRC  
