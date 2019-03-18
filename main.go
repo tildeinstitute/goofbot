@@ -139,7 +139,15 @@ func main() {
 			if err != nil {
 				log.Fatalln("Error while running 'who -q'")
 			}
-			c.Cmd.Reply(e, out.String())
+			userlist := strings.Split(out.String(), " ")
+			var sanilist string
+			for i, e := range userlist {
+				userlist[i] = "~" + e
+			}
+			for i := range userlist {
+				sanilist += userlist[i]
+			}
+			c.Cmd.Reply(e, sanilist[:9])
 			return
 		}
 		// number of total human users on the server
