@@ -142,7 +142,9 @@ func main() {
 			userlist := strings.Split(out.String(), " ")
 			var sanilist string
 			for i, e := range userlist {
-				userlist[i] = "_" + e
+				if userlist[i] != " " {
+					userlist[i] = "_" + e
+				}
 			}
 			for i := range userlist {
 				sanilist += userlist[i]
