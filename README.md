@@ -11,6 +11,7 @@ Standard command/response structure
 * !users - reports logged in users  
 * !uptime - reports uptime and load      
 * !admin - Interacts with Gotify API to send a push notification to admins  
+* !join #channel - Directs bot to join #channel  
 
 Can define a bot owner for certain commands  
 Able to identify with services  
