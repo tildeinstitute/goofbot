@@ -10,7 +10,7 @@ Standard command/response structure
 * !totalusers - reports number of registered users  
 * !users - reports logged in users  
 * !uptime - reports uptime and load      
-* !admin - Interacts with Gotify API to send a message to admins  
+* !admin - Interacts with Gotify API to send a push notification to admins  
 
 Can define a bot owner for certain commands  
 Able to identify with services  
