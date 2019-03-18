@@ -1,0 +1,6 @@
+curl --request POST \
+  --url 'https://gotify.tildeverse.org/message?token=redacted' \
+    --header 'accept: application/json' \
+      --header 'content-type: application/json' \
+        --header 'x-gotify-key: redacted' \
+          --data '{  "message": "A hero is needed in #institute",  "priority": 2,  "title": "Admin Request" }'
