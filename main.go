@@ -142,12 +142,12 @@ func main() {
 			userlist := strings.Split(out.String(), " ")
 			var sanilist string
 			for i, e := range userlist {
-				userlist[i] = "~" + e
+				userlist[i] = "_" + e
 			}
 			for i := range userlist {
 				sanilist += userlist[i]
 			}
-			c.Cmd.Reply(e, sanilist[:9])
+			c.Cmd.Reply(e, sanilist[:11])
 			return
 		}
 		// number of total human users on the server
