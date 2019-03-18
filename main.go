@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -132,24 +133,21 @@ func main() {
 		// respond with currently connected users
 		// TODO: prepend names with _ to avoid pings in irc
 		if strings.HasPrefix(e.Last(), "!users") {
-			users := exec.Command("who", "-q")
-			var out bytes.Buffer
-			users.Stdout = &out
-			err := users.Run()
-			if err != nil {
-				log.Fatalln("Error while running 'who -q'")
-			}
-			userlist := strings.Split(out.String(), " ")
-			var sanilist string
-			for i, e := range userlist {
-				if userlist[i] != " " {
-					userlist[i] = "_" + e
-				}
-			}
-			for i := range userlist {
-				sanilist += userlist[i]
-			}
-			c.Cmd.Reply(e, sanilist[:len(sanilist)-9])
+			who := exec.Command("who", "-q")
+			awk := exec.Command("awk", "NR==1")
+			r, w := io.Pipe()
+			who.Stdout = w
+			awk.Stdin = r
+			var bytestream bytes.Buffer
+			awk.Stdout = &bytestream
+			who.Start()
+			awk.Start()
+			who.Wait()
+			w.Close()
+			awk.Wait()
+			io.Copy(os.Stdout, &bytestream)
+
+			c.Cmd.Reply(e, bytestream.String())
 			return
 		}
 		// number of total human users on the server
