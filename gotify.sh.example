@@ -1,3 +1,5 @@
+#!/usr/local/bin/bash
+
 curl --request POST \
   --url 'https://gotify.tildeverse.org/message?token=redacted' \
     --header 'accept: application/json' \
