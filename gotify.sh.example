@@ -5,4 +5,4 @@ curl --request POST \
     --header 'accept: application/json' \
       --header 'content-type: application/json' \
         --header 'x-gotify-key: redacted' \
-          --data '{  "message": "A hero is needed in #institute",  "priority": 2,  "title": "Admin Request" }'
+          --data '{  "message": "A hero is needed in #institute",  "priority": 5,  "title": "Admin Request" }'
