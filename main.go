@@ -147,7 +147,7 @@ func main() {
 			for i := range userlist {
 				sanilist += userlist[i]
 			}
-			c.Cmd.Reply(e, sanilist[:11])
+			c.Cmd.Reply(e, sanilist[:5])
 			return
 		}
 		// number of total human users on the server
