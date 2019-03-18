@@ -133,6 +133,8 @@ func main() {
 		// respond with currently connected users
 		// TODO: prepend names with _ to avoid pings in irc
 		if strings.HasPrefix(e.Last(), "!users") {
+			// execs: who -q | awk 'NR==1'
+			// then saves the output to bytestream
 			who := exec.Command("who", "-q")
 			awk := exec.Command("awk", "NR==1")
 			r, w := io.Pipe()
@@ -155,6 +157,11 @@ func main() {
 			userdirs, err := ioutil.ReadDir("/home")
 			checkerr(err)
 			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
+			return
+		}
+		// TODO: send a gotify push notification to the admins
+		if strings.HasPrefix(e.Last(), "!admin") {
+			return
 		}
 	})
 
