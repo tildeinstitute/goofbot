@@ -108,7 +108,7 @@ func main() {
 		}
 		//another basic command/response. required information for the tildeverse
 		if strings.HasPrefix(e.Last(), "!botlist") {
-			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello !join !uptime !users !totalusers")
+			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello !join !uptime !users !totalusers. If you need the assistance of an admin, issue !admin")
 			return
 		}
 		// when requested by owner, join channel specified
@@ -159,8 +159,15 @@ func main() {
 			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
 			return
 		}
-		// TODO: send a gotify push notification to the admins
 		if strings.HasPrefix(e.Last(), "!admin") {
+			//gotify.sh contains a preconstructed curl request that
+			//uses the gotify api to send a notification to admins
+			gotify := exec.Command("./gotify.sh")
+			err := gotify.Run()
+			if err == nil {
+				c.Cmd.Reply(e, "The admins have been notified that you need their assistance!")
+			}
+			checkerr(err)
 			return
 		}
 	})
