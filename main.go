@@ -159,7 +159,7 @@ func main() {
 			awk.Wait()
 			r.Close()
 
-			c.Cmd.Reply(e, bytestream.String())
+			c.Cmd.ReplyTo(e, bytestream.String())
 			return
 		}
 		// number of total human users on the server
