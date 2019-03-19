@@ -42,11 +42,13 @@ type Conf struct {
 func main() {
 	//check for config file specified by command line flag -c
 	jsonlocation := flag.String("c", "config.json", "Path to config file in JSON format")
+	jsonlocationlong := flag.String("config", "config.json", "Same as -c")
 	//spit out config file structure if requested
 	jsonformat := flag.Bool("j", false, "Describes JSON config file fields")
+	jsonformatlong := flag.Bool("json", false, "Same as -j")
 
 	flag.Parse()
-	if *jsonformat == true {
+	if *jsonformat == true || *jsonformatlong == true {
 		fmt.Println(`Here is the format for the JSON config file:
             {
                 "owner": "YourNickHere",
@@ -62,6 +64,9 @@ func main() {
 		os.Exit(0)
 	}
 	//read the config file into a byte array
+	if *jsonlocationlong != "config.json" && *jsonlocationlong != "" {
+		*jsonlocation = *jsonlocationlong
+	}
 	jsonconf, err := ioutil.ReadFile(*jsonlocation)
 	checkerr(err)
 
