@@ -2,7 +2,7 @@
 
 curl --request POST \
   --url 'https://gotify.tildeverse.org/message?token=APIKEYHERE' \
-    --header 'accept: application/json' \
-      --header 'content-type: application/json' \
-        --header 'x-gotify-key: APIKEYHERE' \
-          --data '{  "message": "A hero is needed in #institute",  "priority": 5,  "title": "Admin Request" }'
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --header 'x-gotify-key: APIKEYHERE' \
+  --data '{  "message": "A hero is needed in #institute",  "priority": 5,  "title": "Admin Request" }'
