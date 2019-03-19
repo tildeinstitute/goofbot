@@ -63,10 +63,14 @@ func main() {
             }`)
 		os.Exit(0)
 	}
-	//read the config file into a byte array
+
+	// if the extended switch isn't the default value
+	// and if the extended switch isn't empty
 	if *jsonlocationlong != "config.json" && *jsonlocationlong != "" {
 		*jsonlocation = *jsonlocationlong
 	}
+
+	//read the config file into a byte array
 	jsonconf, err := ioutil.ReadFile(*jsonlocation)
 	checkerr(err)
 
