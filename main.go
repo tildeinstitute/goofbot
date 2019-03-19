@@ -126,6 +126,7 @@ func main() {
 			c.Cmd.Reply(e, "Right away, cap'n!")
 			time.Sleep(100 * time.Millisecond)
 			c.Cmd.Join(dest[1])
+			return
 		}
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
