@@ -19,4 +19,3 @@ Able to identify with services
 ## TODO
 
 Externalize basic command/responses   
-Sanitize output of !users so as to not ping them in IRC  
