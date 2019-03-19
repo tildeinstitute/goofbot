@@ -157,7 +157,7 @@ func main() {
 			who.Wait()
 			w.Close()
 			awk.Wait()
-			io.Copy(os.Stdout, &bytestream)
+			r.Close()
 
 			c.Cmd.Reply(e, bytestream.String())
 			return
