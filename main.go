@@ -159,7 +159,8 @@ func main() {
 			awk.Wait()
 			r.Close()
 
-			c.Cmd.ReplyTo(e, bytestream.String())
+			c.Cmd.Reply(e, "Check your private messages!")
+			c.Cmd.Message(e.Source.Name, bytestream.String())
 			return
 		}
 		// number of total human users on the server
