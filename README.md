@@ -15,6 +15,7 @@ Standard command/response structure
 
 Can define a bot owner for certain commands  
 Able to identify with services  
+Handles ^C (SIGINT) gracefully  
 
 ## TODO
 
