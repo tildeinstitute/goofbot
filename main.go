@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strconv"
 	"strings"
 	"time"
@@ -187,12 +188,12 @@ func main() {
 	if err := client.Connect(); err != nil {
 		log.Fatalf("an error occurred while attempting to connect to %s: %s", client.Server(), err)
 	}
-	// TODO: figure out sigint handling
-	//	ctrlc := make(chan os.Signal, 1)
-	//	signal.Notify(ctrlc, os.Interrupt)
-	//	go func() {
-	//		<-ctrlc
-	//		client.Close()
-	//		os.Exit(1)
-	//	}()
+	// sigint handling
+	ctrlc := make(chan os.Signal, 1)
+	signal.Notify(ctrlc, os.Interrupt)
+	go func() {
+		<-ctrlc
+		client.Close()
+		os.Exit(1)
+	}()
 }
