@@ -4,8 +4,8 @@ An IRC bot I'm working on to practice Go.
 
 ## Features
 
-External config file in JSON, optionally set via flag '-c'  
-Gives example config file with flag '-j'  
+External config file in JSON, optionally set via flag '-c' or '--config'  
+Gives example config file with flag '-j' or '--json'  
 Standard command/response structure  
 * !totalusers - reports number of registered users  
 * !users - reports logged in users  
