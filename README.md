@@ -1,4 +1,4 @@
-# goofbot
+# goofbot ![gpl-3.0](https://img.shields.io/badge/license-GPLv3-brightgreen.svg "GPL v3")
 
 An IRC bot I'm working on to practice Go.
 
