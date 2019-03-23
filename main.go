@@ -49,7 +49,7 @@ func main() {
 	jsonformatlong := flag.Bool("json", false, "Same as -j")
 
 	flag.Parse()
-	if *jsonformat == true || *jsonformatlong == true {
+	if *jsonformat || *jsonformatlong {
 		fmt.Println(`Here is the format for the JSON config file:
             {
                 "owner": "YourNickHere",
