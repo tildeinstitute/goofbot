@@ -1,4 +1,4 @@
-# goofbot ![gpl-3.0](https://img.shields.io/badge/license-GPLv3-brightgreen.svg "GPL v3")
+# goofbot ![gpl-3.0](https://img.shields.io/badge/license-GPLv3-brightgreen.svg "GPL v3") [![Go Report Card](https://goreportcard.com/badge/github.com/gbmor/goofbot)](https://goreportcard.com/report/github.com/gbmor/goofbot)
 
 An IRC bot I'm working on to practice Go.
 
