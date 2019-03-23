@@ -153,11 +153,15 @@ func main() {
 			awk.Stdin = r
 			var bytestream bytes.Buffer
 			awk.Stdout = &bytestream
-			who.Start()
-			awk.Start()
-			who.Wait()
+			err := who.Start()
+			checkerr(err)
+			err = awk.Start()
+			checkerr(err)
+			err = who.Wait()
+			checkerr(err)
 			w.Close()
-			awk.Wait()
+			err = awk.Wait()
+			checkerr(err)
 			r.Close()
 
 			c.Cmd.Reply(e, "Check your private messages!")
