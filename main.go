@@ -145,7 +145,7 @@ func main() {
 		if strings.HasPrefix(e.Last(), "!users") {
 			// execs: who -q | awk 'NR==1'
 			// then saves the output to bytestream
-			who := exec.Command("/usr/local/bin/showwhoison", "")
+			who := exec.Command("/usr/local/bin/who2.sh", "")
 			var bytestream bytes.Buffer
 			who.Stdout = &bytestream
 			err := who.Run()
