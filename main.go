@@ -153,11 +153,17 @@ func main() {
 
 			split := strings.Split(bytestream.String(), " ")
 			var out bytes.Buffer
+			nicks := make(map[string]bool)
 			for _, e := range split {
-				if !strings.Contains(e, ":") {
-					out.Write([]byte(e + " "))
+				if strings.HasSuffix(e, ":") {
+					clip := string(e[:len(e)-1])
+					nicks[clip] = true
+				} else {
+					nicks[e] = true
 				}
-
+			}
+			for k := range nicks {
+				out.WriteString(k + " ")
 			}
 
 			c.Cmd.Reply(e, "Check your private messages!")
