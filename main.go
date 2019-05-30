@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -146,23 +145,11 @@ func main() {
 		if strings.HasPrefix(e.Last(), "!users") {
 			// execs: who -q | awk 'NR==1'
 			// then saves the output to bytestream
-			who := exec.Command("who", "-q")
-			awk := exec.Command("awk", "NR==1")
-			r, w := io.Pipe()
-			who.Stdout = w
-			awk.Stdin = r
+			who := exec.Command("/usr/local/bin/showwhoison", "")
 			var bytestream bytes.Buffer
-			awk.Stdout = &bytestream
-			err := who.Start()
+			who.Stdout = &bytestream
+			err := who.Run()
 			checkerr(err)
-			err = awk.Start()
-			checkerr(err)
-			err = who.Wait()
-			checkerr(err)
-			w.Close()
-			err = awk.Wait()
-			checkerr(err)
-			r.Close()
 
 			c.Cmd.Reply(e, "Check your private messages!")
 			c.Cmd.Message(e.Source.Name, bytestream.String())
