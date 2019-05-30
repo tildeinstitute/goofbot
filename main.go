@@ -151,8 +151,17 @@ func main() {
 			err := who.Run()
 			checkerr(err)
 
+			split := strings.Split(bytestream.String(), " ")
+			var out bytes.Buffer
+			for _, e := range split {
+				if !strings.Contains(e, ":") {
+					out.Write([]byte(e + " "))
+				}
+
+			}
+
 			c.Cmd.Reply(e, "Check your private messages!")
-			c.Cmd.Message(e.Source.Name, bytestream.String())
+			c.Cmd.Message(e.Source.Name, out.String())
 			return
 		}
 		// number of total human users on the server
