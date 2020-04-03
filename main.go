@@ -163,16 +163,13 @@ func main() {
 
 			split := strings.Split(bytestream.String(), "\n")
 			var out bytes.Buffer
+
 			for i := 1; i < len(split); i++ {
 				if split[i] == "" {
 					continue
 				}
 
-				tmp := split[i]
-				a := tmp[:2]
-				b := tmp[2:]
-				c := fmt.Sprintf("%s%s%s", a, ZWSP, b)
-
+				c := fmt.Sprintf("%s%s", ZWSP, split[i])
 				out.WriteString(c + " ")
 			}
 
