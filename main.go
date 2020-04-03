@@ -17,12 +17,8 @@ import (
 	"github.com/lrstanley/girc"
 )
 
-// function to grease error checking
-func checkerr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
+// ZWSP is a zero-width space
+const ZWSP = string(0x200b)
 
 //Conf ... right now Conf.Pass isn't used,
 // but i'm leaving it so the bot
@@ -43,6 +39,7 @@ func main() {
 	// check for config file specified by command line flag -c
 	jsonlocation := flag.String("c", "config.json", "Path to config file in JSON format")
 	jsonlocationlong := flag.String("config", "config.json", "Same as -c")
+
 	// spit out config file structure if requested
 	jsonformat := flag.Bool("j", false, "Describes JSON config file fields")
 	jsonformatlong := flag.Bool("json", false, "Same as -j")
@@ -72,12 +69,16 @@ func main() {
 
 	// read the config file into a byte array
 	jsonconf, err := ioutil.ReadFile(*jsonlocation)
-	checkerr(err)
+	if err != nil {
+		log.Fatalf("Error loading config: %v", err.Error())
+	}
 
 	// unmarshal the json byte array into struct conf
 	var conf Conf
 	err = json.Unmarshal(jsonconf, &conf)
-	checkerr(err)
+	if err != nil {
+		log.Fatalf("Error parsing config: %v", err.Error())
+	}
 
 	// CLIENT CONFIG
 	client := girc.New(girc.Config{
@@ -115,11 +116,7 @@ func main() {
 			c.Close()
 			return
 		}
-		// another basic command/response. required information for the tildeverse
-		if strings.HasPrefix(e.Last(), "!botlist") {
-			c.Cmd.Reply(e, "Creator: ~a h r i m a n~ :: I'm the assistance bot for tilde.institute. Commands: !hello !join !uptime !users !totalusers. If you need the assistance of an admin, issue !admin")
-			return
-		}
+
 		// when requested by owner, join channel specified
 		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == conf.Owner {
 			dest := strings.Split(e.Params[1], " ")
@@ -135,45 +132,49 @@ func main() {
 			uptime.Stdout = &out
 			err := uptime.Run()
 			if err != nil {
-				log.Fatalln("Error while running 'uptime'")
+				log.Printf("!uptime error: %v", err.Error())
+				return
 			}
 			c.Cmd.Reply(e, out.String())
 			return
 		}
-		// respond with currently connected users via private message
-		// to avoid pinging the user in IRC
+
 		if strings.HasPrefix(e.Last(), "!users") {
-			// execs: who -q | awk 'NR==1'
-			// then saves the output to bytestream
-			who := exec.Command("/usr/local/bin/who2.sh", "")
+			who := exec.Command("/usr/local/bin/showwhoison", "")
 			var bytestream bytes.Buffer
 			who.Stdout = &bytestream
 			err := who.Run()
-			checkerr(err)
+			if err != nil {
+				log.Printf("!users error: %v", err.Error())
+				return
+			}
 
-			split := strings.Split(bytestream.String(), " ")
+			split := strings.Split(bytestream.String(), "\n")
 			var out bytes.Buffer
-			nicks := make(map[string]bool)
-			for _, e := range split {
-				if strings.HasSuffix(e, ":") {
-					clip := string(e[:len(e)-1])
-					nicks[clip] = true
-				} else {
-					nicks[e] = true
+			for i := 1; i < len(split); i++ {
+				if split[i] == "" {
+					continue
 				}
-			}
-			for k := range nicks {
-				out.WriteString(k + " ")
+
+				tmp := split[i]
+				a := tmp[:2]
+				b := tmp[2:]
+				c := fmt.Sprintf("%s%s%s", a, ZWSP, b)
+
+				out.WriteString(c + " ")
 			}
 
-			c.Cmd.Reply(e, "Check your private messages!")
-			c.Cmd.Message(e.Source.Name, out.String())
+			c.Cmd.Reply(e, out.String())
 			return
 		}
 		// number of total human users on the server
 		if strings.HasPrefix(e.Last(), "!totalusers") {
 			userdirs, err := ioutil.ReadDir("/home")
-			checkerr(err)
+			if err != nil {
+				log.Printf("!totalusers error: %v", err.Error())
+				return
+			}
+
 			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
 			return
 		}
@@ -182,10 +183,13 @@ func main() {
 			// uses the gotify api to send a notification to admins
 			gotify := exec.Command("./gotify.sh")
 			err := gotify.Run()
-			if err == nil {
-				c.Cmd.Reply(e, "The admins have been notified that you need their assistance!")
+			if err != nil {
+				log.Printf("!admin error: %v", err.Error())
+				c.Cmd.Reply(e, "Error, check logs")
+				return
 			}
-			checkerr(err)
+
+			c.Cmd.Reply(e, "The admins have been notified that you need their assistance!")
 			return
 		}
 	})
@@ -194,6 +198,7 @@ func main() {
 	if err := client.Connect(); err != nil {
 		log.Fatalf("an error occurred while attempting to connect to %s: %s", client.Server(), err)
 	}
+
 	// sigint handling
 	ctrlc := make(chan os.Signal, 1)
 	signal.Notify(ctrlc, os.Interrupt)
