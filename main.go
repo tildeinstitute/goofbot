@@ -20,32 +20,30 @@ import (
 // ZWSP is a zero-width space
 const ZWSP = string(0x200b)
 
-//Conf ... right now Conf.Pass isn't used,
-// but i'm leaving it so the bot
-// can have a registered nick
+// Conf holds all the config info
 type Conf struct {
-	Owner  string
-	Chan   string
-	Server string
-	Port   int
-	Nick   string
-	Pass   string
-	User   string
-	Name   string
-	SSL    bool
+	Owner  string `json:"owner"`
+	Chan   string `json:"chan"`
+	Server string `json:"server"`
+	Port   int    `json:"port"`
+	Nick   string `json:"nick"`
+	Pass   string `json:"pass"`
+	User   string `json:"user"`
+	Name   string `json:"name"`
+	SSL    bool   `json:"ssl"`
 }
 
 func main() {
 	// check for config file specified by command line flag -c
-	jsonlocation := flag.String("c", "config.json", "Path to config file in JSON format")
-	jsonlocationlong := flag.String("config", "config.json", "Same as -c")
+	jsonLocation := flag.String("c", "config.json", "Path to config file in JSON format")
+	jsonLocationLong := flag.String("config", "config.json", "Same as -c")
 
 	// spit out config file structure if requested
-	jsonformat := flag.Bool("j", false, "Describes JSON config file fields")
-	jsonformatlong := flag.Bool("json", false, "Same as -j")
+	jsonFormat := flag.Bool("j", false, "Describes JSON config file fields")
+	jsonFormatLong := flag.Bool("json", false, "Same as -j")
 
 	flag.Parse()
-	if *jsonformat || *jsonformatlong {
+	if *jsonFormat || *jsonFormatLong {
 		fmt.Println(`Here is the format for the JSON config file:
             {
                 "owner": "YourNickHere",
@@ -63,12 +61,12 @@ func main() {
 
 	// if the extended switch isn't the default value
 	// and if the extended switch isn't empty
-	if *jsonlocationlong != "config.json" && *jsonlocationlong != "" {
-		*jsonlocation = *jsonlocationlong
+	if *jsonLocationLong != "config.json" && *jsonLocationLong != "" {
+		*jsonLocation = *jsonLocationLong
 	}
 
 	// read the config file into a byte array
-	jsonconf, err := ioutil.ReadFile(*jsonlocation)
+	jsonconf, err := ioutil.ReadFile(*jsonLocation)
 	if err != nil {
 		log.Fatalf("Error loading config: %v", err.Error())
 	}
@@ -120,11 +118,24 @@ func main() {
 		// when requested by owner, join channel specified
 		if strings.HasPrefix(e.Last(), "!join") && e.Source.Name == conf.Owner {
 			dest := strings.Split(e.Params[1], " ")
+			if len(dest) < 2 {
+				c.Cmd.Reply(e, "You must specify at least one channel to join")
+				return
+			}
+
 			c.Cmd.Reply(e, "Right away, cap'n!")
 			time.Sleep(100 * time.Millisecond)
-			c.Cmd.Join(dest[1])
+
+			for _, channel := range dest[1:] {
+				if !strings.HasPrefix(channel, "#") {
+					continue
+				}
+				c.Cmd.Join(channel)
+			}
+
 			return
 		}
+
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
 			uptime := exec.Command("uptime")
@@ -133,6 +144,7 @@ func main() {
 			err := uptime.Run()
 			if err != nil {
 				log.Printf("!uptime error: %v", err.Error())
+				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
 				return
 			}
 			c.Cmd.Reply(e, out.String())
@@ -146,6 +158,7 @@ func main() {
 			err := who.Run()
 			if err != nil {
 				log.Printf("!users error: %v", err.Error())
+				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
 				return
 			}
 
@@ -167,17 +180,26 @@ func main() {
 			c.Cmd.Reply(e, out.String())
 			return
 		}
-		// number of total human users on the server
+
+		// number of total human users on the server.
+		// only active sessions.
 		if strings.HasPrefix(e.Last(), "!totalusers") {
 			userdirs, err := ioutil.ReadDir("/home")
 			if err != nil {
 				log.Printf("!totalusers error: %v", err.Error())
+				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
 				return
 			}
 
 			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
 			return
 		}
+
+		// hmmm.
+		if strings.Contains(e.Last(), "rain drop") {
+			c.Cmd.Reply(e, "drop top")
+		}
+
 		if strings.HasPrefix(e.Last(), "!admin") {
 			// gotify.sh contains a preconstructed curl request that
 			// uses the gotify api to send a notification to admins
@@ -185,7 +207,7 @@ func main() {
 			err := gotify.Run()
 			if err != nil {
 				log.Printf("!admin error: %v", err.Error())
-				c.Cmd.Reply(e, "Error, check logs")
+				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
 				return
 			}
 
