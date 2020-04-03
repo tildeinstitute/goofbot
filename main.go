@@ -16,8 +16,8 @@ import (
 	"github.com/lrstanley/girc"
 )
 
-// ZWSP is a zero-width space
-const ZWSP = string(0x200b)
+// ZW is a zero-width character
+const ZW = string(0x200c)
 
 // Conf holds all the config info
 type Conf struct {
@@ -169,7 +169,7 @@ func main() {
 					continue
 				}
 
-				c := fmt.Sprintf("%s%s", ZWSP, split[i])
+				c := fmt.Sprintf("%s%s", ZW, split[i])
 				out.WriteString(c + " ")
 			}
 
