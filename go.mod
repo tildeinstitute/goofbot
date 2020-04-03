@@ -2,4 +2,4 @@ module github.com/gbmor/goofbot
 
 go 1.12
 
-require github.com/lrstanley/girc v0.0.0-20190210212025-51b8e096d398
+require github.com/lrstanley/girc v0.0.0-20190801035559-4fc93959e1a7
