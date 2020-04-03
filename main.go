@@ -17,7 +17,7 @@ import (
 )
 
 // ZW is a zero-width character
-const ZW = string(0x200c)
+const ZW = string(0x2060)
 
 // Conf holds all the config info
 type Conf struct {
