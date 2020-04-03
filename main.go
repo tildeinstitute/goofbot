@@ -1,4 +1,4 @@
-package main // import "github.com/gbmor/goofbot"
+package main
 
 import (
 	"bytes"
@@ -10,7 +10,6 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
-	"strconv"
 	"strings"
 	"time"
 
@@ -138,7 +137,7 @@ func main() {
 
 		// respond with uptime / load
 		if strings.HasPrefix(e.Last(), "!uptime") {
-			uptime := exec.Command("uptime")
+			uptime := exec.Command("/usr/bin/uptime")
 			var out bytes.Buffer
 			uptime.Stdout = &out
 			err := uptime.Run()
@@ -191,7 +190,8 @@ func main() {
 				return
 			}
 
-			c.Cmd.Reply(e, strconv.Itoa(len(userdirs))+" user accounts on ~institute")
+			msg := fmt.Sprintf("%v user accounts on ~institute", len(userdirs))
+			c.Cmd.Reply(e, msg)
 			return
 		}
 
