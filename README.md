@@ -1,7 +1,7 @@
 # goofbot ![gpl-3.0](https://img.shields.io/badge/license-GPLv3-brightgreen.svg "GPL v3") [![Go Report Card](https://goreportcard.com/badge/github.com/gbmor/goofbot)](https://goreportcard.com/report/github.com/gbmor/goofbot) [![GolangCI](https://img.shields.io/badge/golang%20ci-success-blue.svg)](https://golangci.com/r/github.com/gbmor/goofbot)
 
 
-An IRC bot I'm working on to practice Go.
+An small bot for the [tilde.institute](https://tilde.institute) IRC channel
 
 ## Features
 
@@ -16,8 +16,4 @@ Standard command/response structure
 
 Can define a bot owner for certain commands  
 Able to identify with services  
-Handles ^C (SIGINT) gracefully  
-
-## TODO
-
-Externalize basic command/responses   
+Handles ^C (SIGINT) gracefully
