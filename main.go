@@ -17,7 +17,7 @@ import (
 )
 
 // ZW is a zero-width character
-const ZW = string(0x2060)
+const ZW = string(0x200b)
 
 // Conf holds all the config info
 type Conf struct {
@@ -165,11 +165,11 @@ func main() {
 			var out bytes.Buffer
 
 			for i := 1; i < len(split); i++ {
-				if split[i] == "" {
+				if split[i] == "" || len(split[i]) < 2 {
 					continue
 				}
 
-				c := fmt.Sprintf("%s%s", ZW, split[i])
+				c := fmt.Sprintf("%s%s%s", split[i][:1], ZW, split[i][1:])
 				out.WriteString(c + " ")
 			}
 
