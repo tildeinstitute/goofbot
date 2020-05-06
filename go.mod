@@ -1,4 +1,4 @@
-module github.com/gbmor/goofbot
+module github.com/tildeinstitute/goofbot
 
 go 1.12
 
