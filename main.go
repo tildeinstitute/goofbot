@@ -19,6 +19,9 @@ import (
 // ZW is a zero-width character
 const ZW = string(0x200b)
 
+// Generic in-chat error message
+const errMsg = "I'm broke! Fix me! Check my logs!"
+
 // Conf holds all the config info
 type Conf struct {
 	Owner  string `json:"owner"`
@@ -143,7 +146,7 @@ func main() {
 			err := uptime.Run()
 			if err != nil {
 				log.Printf("!uptime error: %v", err.Error())
-				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
+				c.Cmd.Reply(e, errMsg)
 				return
 			}
 			c.Cmd.Reply(e, out.String())
@@ -157,7 +160,7 @@ func main() {
 			err := who.Run()
 			if err != nil {
 				log.Printf("!users error: %v", err.Error())
-				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
+				c.Cmd.Reply(e, errMsg)
 				return
 			}
 
@@ -183,7 +186,7 @@ func main() {
 			userdirs, err := ioutil.ReadDir("/home")
 			if err != nil {
 				log.Printf("!totalusers error: %v", err.Error())
-				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
+				c.Cmd.Reply(e, errMsg)
 				return
 			}
 
@@ -204,7 +207,7 @@ func main() {
 			err := gotify.Run()
 			if err != nil {
 				log.Printf("!admin error: %v", err.Error())
-				c.Cmd.Reply(e, "I'm broke! Fix me! Check my logs!")
+				c.Cmd.Reply(e, errMsg)
 				return
 			}
 
