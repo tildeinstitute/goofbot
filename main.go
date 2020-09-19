@@ -199,6 +199,9 @@ func main() {
 		if strings.Contains(e.Last(), "rain drop") {
 			c.Cmd.Reply(e, "drop top")
 		}
+		if strings.Contains(e.Last(), "blockchain") {
+			c.Cmd.Reply(e, "blonkchain")
+		}
 
 		if strings.HasPrefix(e.Last(), "!admin") {
 			// gotify.sh contains a preconstructed curl request that
